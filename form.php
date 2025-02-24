@@ -1,3 +1,41 @@
+<?php
+
+require_once 'Database/db.php';
+
+
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+  $first_name = $_POST['first_name'];
+  $last_name = $_POST['last_name'];
+  $email = $_POST['email'];
+  $location = $_POST['location'];
+  $crop = $_POST['crop'];
+  $feed = $_POST['feed'];
+
+  $sql = "INSERT INTO responses (First_Name, Last_Name, Email, Location, Crops, FeedBack) VALUES ('$first_name', '$last_name', '$email', '$location', '$crop', '$feed')";
+
+  if(mysqli_query($conn, $sql)){
+    echo "New record created successfully";
+  }else{
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+  }
+}
+
+
+// create table responses(
+//   SN int primary key auto_increment,
+//   First_Name varchar(50),
+//   Last_Name varchar (50),
+//   Email VARCHAR(255) unique,
+//   Location text,
+//   Crops text,
+//   FeedBack text,
+//   Reg_Date datetime default now()
+//   );
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -52,7 +90,7 @@
   </head>
   <body>
     <div class="container mt-5">
-      <div class="form-container">
+      <form class="form-container" method="POST" action="form.php">
         <h3 class="text-center mb-4">Farm Registration Form</h3>
         <form>
           <div class="row">
@@ -63,6 +101,7 @@
                 class="form-control shadow-input"
                 id="firstName"
                 placeholder="Enter first name"
+                name="first_name"
                 required
               />
             </div>
@@ -72,6 +111,7 @@
                 type="text"
                 class="form-control shadow-input"
                 id="lastName"
+                name="last_name"
                 placeholder="Enter last name"
                 required
               />
@@ -84,6 +124,7 @@
               type="email"
               class="form-control shadow-input"
               id="email"
+              name="email"
               placeholder="Enter email"
               required
             />
@@ -91,7 +132,7 @@
 
           <div class="mb-3">
             <label for="location" class="form-label">Location of Farm</label>
-            <select class="form-select shadow-input" id="location" required>
+            <select name="location" class="form-select shadow-input" id="location" required>
               <option value="" disabled selected>Select location</option>
               <option value="Ahero">Ahero</option>
               <option value="Migori">Migori</option>
@@ -102,72 +143,13 @@
           <div class="mb-3">
             <label class="form-label">Type of Crop</label>
             <div class="row">
-              <div class="col-md-6">
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="Sorghum"
-                    id="crop1"
-                  />
-                  <label class="form-check-label" for="crop1">Sorghum</label>
-                </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="Rice"
-                    id="crop2"
-                  />
-                  <label class="form-check-label" for="crop2">Rice</label>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="Wheat"
-                    id="crop3"
-                  />
-                  <label class="form-check-label" for="crop3">Wheat</label>
-                </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    value="Maize"
-                    id="crop4"
-                  />
-                  <label class="form-check-label" for="crop4">Maize</label>
-                </div>
-              </div>
+              <input type="text" class="form-control shadow-input" name="crop" placeholder="Enter crop" required />
             </div>
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Are you interested in the system?</label>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="interest"
-                id="yes"
-                value="Yes"
-                required
-              />
-              <label class="form-check-label" for="yes">Yes</label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="interest"
-                id="no"
-                value="No"
-              />
-              <label class="form-check-label" for="no">No</label>
-            </div>
+            <label class="form-label">Any other infomation?</label>
+            <textarea class="form-control shadow-input" name="feed" placeholder="Enter feedback"></textarea>
           </div>
 
           <div class="text-center">
@@ -176,7 +158,7 @@
             </button>
           </div>
         </form>
-      </div>
+    </form>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
