@@ -8,10 +8,51 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <style>
+      body {
+        background: linear-gradient(
+          to right,
+          #f0fff0,
+          #e9f7ef
+        ); /* Soft green gradient */
+        font-family: "Arial", sans-serif;
+      }
+      .form-container {
+        max-width: 600px;
+        margin: auto;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .form-container h3 {
+        font-weight: bold;
+        color: #2c7a4b; /* Dark green */
+      }
+      .btn-light-green {
+        background-color: #50c878; /* Light green */
+        color: white;
+        border: none;
+      }
+      .btn-light-green:hover {
+        background-color: #45b369; /* Darker shade on hover */
+      }
+      .form-check-input:checked {
+        background-color: #50c878;
+        border-color: #50c878;
+      }
+      .form-label {
+        font-weight: 600;
+      }
+      .shadow-input {
+        border-radius: 8px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+    </style>
   </head>
-  <body class="bg-light">
+  <body>
     <div class="container mt-5">
-      <div class="card shadow-lg p-4">
+      <div class="form-container">
         <h3 class="text-center mb-4">Farm Registration Form</h3>
         <form>
           <div class="row">
@@ -19,7 +60,7 @@
               <label for="firstName" class="form-label">First Name</label>
               <input
                 type="text"
-                class="form-control"
+                class="form-control shadow-input"
                 id="firstName"
                 placeholder="Enter first name"
                 required
@@ -29,7 +70,7 @@
               <label for="lastName" class="form-label">Last Name</label>
               <input
                 type="text"
-                class="form-control"
+                class="form-control shadow-input"
                 id="lastName"
                 placeholder="Enter last name"
                 required
@@ -41,7 +82,7 @@
             <label for="email" class="form-label">Email Address</label>
             <input
               type="email"
-              class="form-control"
+              class="form-control shadow-input"
               id="email"
               placeholder="Enter email"
               required
@@ -50,7 +91,7 @@
 
           <div class="mb-3">
             <label for="location" class="form-label">Location of Farm</label>
-            <select class="form-select" id="location" required>
+            <select class="form-select shadow-input" id="location" required>
               <option value="" disabled selected>Select location</option>
               <option value="Ahero">Ahero</option>
               <option value="Migori">Migori</option>
@@ -130,7 +171,9 @@
           </div>
 
           <div class="text-center">
-            <button type="submit" class="btn btn-primary w-100">Submit</button>
+            <button type="submit" class="btn btn-light-green w-100 py-2">
+              Submit
+            </button>
           </div>
         </form>
       </div>
