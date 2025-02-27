@@ -1,9 +1,38 @@
+<?php
+// include database connection
+require_once 'database/db.php';
+
+// check if form is submitted
+if (isset($_POST['send'])) {
+    // get form data
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $farm_size = $_POST['farm_size'];
+    $crops = isset($_POST['crops']) && is_array($_POST['crops']) ? implode(', ', $_POST['crops']) : '';
+    $location = $_POST['location'];
+    $pest = $_POST['pest'];
+
+    // insert data into database
+    $insert_data = "INSERT INTO responses (fname, lname, email, phone, farm_size, crops, location, pest) VALUES ('$fname', '$lname', '$email', '$phone', '$farm_size', '$crops', '$location', '$pest')";
+
+    if ($conn->query($insert_data) === TRUE) {
+        echo '<div class="alert alert-success" role="alert">New record created successfully.</div>';
+    } else {
+        echo '<div class="alert alert-danger" role="alert">Error: ' . $conn->error . '</div>';
+    }
+}
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Ready Onboarding Quiz</title>
+    <title>Salama Farm : Onboarding Quiz</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script defer src="assets/js/script.js"></script>
@@ -36,9 +65,8 @@
     </style>
 </head>
 <body style="background: rgb(255,255,255);
-      background: linear-gradient(73deg, rgba(255,255,255,1) 8%, rgba(29, 180, 44, 0.253) 87%);">
+      background: linear-gradient(73deg, rgba(255,255,255,1) 8%, rgba(29, 180, 44, 0.253) 87%); display:flex; align-items:center; flex-direction:column;" >
       
-
 
     <div class="container p-5 m-0">
         <h2 class="text-center text-dark mb-4">Salama Farm - Onboarding</h2>
@@ -47,7 +75,8 @@
             <div id="progress-bar" class="progress-bar "  role="progressbar" style="width: 0%; background-color: #71c55d;"></div>
         </div>
         
-        <form id="quiz-form">
+        <form id="quiz-form"  method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+            <!-- <input type="hidden" name="form_submitted" value="1"> -->
             <div class="quiz-section" id="section1">
                 <h4>Personal Information</h4>
 
@@ -85,19 +114,19 @@
                 <div class="mb-3">
                     <label class="form-label mt-3">3. What type of crops do you grow?</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="crops" value="rice">
+                        <input class="form-check-input" type="checkbox" name="crops[]" value="rice">
                         <label class="form-check-label">Rice</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="crops" value="wheat">
+                        <input class="form-check-input" type="checkbox" name="crops[]" value="wheat">
                         <label class="form-check-label">Wheat</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="crops" value="sorghum">
+                        <input class="form-check-input" type="checkbox" name="crops[]" value="sorghum">
                         <label class="form-check-label">Sorghum</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="crops" value="maize">
+                        <input class="form-check-input" type="checkbox" name="crops[]" value="maize">
                         <label class="form-check-label">Maize</label>
                     </div>
                 </div>
@@ -138,9 +167,10 @@
                 <button type="button" class="btn btn-secondary" id="prev-btn" disabled>Previous</button>
                 <button type="button" class="btn text-light" style="background-color: #71c55d;" id="next-btn">Next</button>
             </div>
-            <button type="submit" class="btn  w-100 mt-3 hidden" style="background-color: #71c55d; color: #fff;" id="submit-btn">Submit Data</button>
+            <button name="send" class="btn  w-100 mt-3 hidden" style="background-color: #71c55d; color: #fff;" id="submit-btn">Submit Data</button>
         </form>
     </div>
     
 </body>
 </html>
+
